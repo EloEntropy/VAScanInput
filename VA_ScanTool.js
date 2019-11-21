@@ -5,7 +5,7 @@ link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.
 document.head.appendChild(link);
 
 var imported = document.createElement('script');
-imported.src = 'https://code.jquery.com/jquery-3.4.1.slim.min.js';
+imported.setAttribute('src','https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js');
 document.head.appendChild(imported);
 
 imported = document.createElement('script');
