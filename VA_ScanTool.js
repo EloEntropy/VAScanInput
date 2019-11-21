@@ -28,7 +28,7 @@ $(document).ready(function() {
         var buttonHeight = $(this).height();
         $('#hoveringTooltip').html("<button class='qrIconButton' id='scanUpload' style='padding: 0px; height: " + $(this).outerHeight() + "px; width: " + $(this).outerHeight() + "px'><i class='fas fa-qrcode'></i></button><input id='fileid' type='file' onchange='processFile()' hidden />");
         console.log($(this).height() + " vs " + $('#scanUpload').outerHeight());
-        $("#hoveringTooltip").css({ top: $(this).offset().top - ($('#scanUpload').outerHeight() - $(this).outerHeight()) / 2, left: ($(this).offset().left + $(this).width() - $('#scanUpload').width()) });
+        $("#hoveringTooltip").css({ top: $(this).offset().top - ($('#scanUpload').outerHeight() - $(this).outerHeight()) / 2, left: ($(this).offset().left + $(this).width() - $('#scanUpload').outerWidth()) });
         $('#scanUpload').on("click tap", function() {
             document.getElementById('fileid').click();
         });
