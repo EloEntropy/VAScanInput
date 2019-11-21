@@ -17,6 +17,17 @@ imported = document.createElement('script');
 imported.src = 'https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js';
 document.head.appendChild(imported);
 
+$(document).mouseup(function(e) {
+    if ($('#hoveringTooltip').length > 0) {
+        var container = $('#hoveringTooltip').parent();
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            $('#hoveringTooltip').remove();
+        }
+    }
+});
+
 $(document).ready(function() {
 
     $(".imageScan").wrap("<div></div>");
