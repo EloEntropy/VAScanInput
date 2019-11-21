@@ -16,7 +16,7 @@ imported = document.createElement('script');
 imported.src = 'https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js';
 document.head.appendChild(imported);
 
-$(document).ready(function() {
+
     console.log("document is ready");
     $(".imageScan").wrap("<div></div>");
     $(".imageScan").focus(function() {
@@ -32,7 +32,7 @@ $(document).ready(function() {
 //            $('#hoveringTooltip').remove();
 //        });
     });
-})
+
 
 
 // Check for the various File API support.
