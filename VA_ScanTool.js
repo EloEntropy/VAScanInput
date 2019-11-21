@@ -18,17 +18,16 @@ imported.src = 'https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.
 document.head.appendChild(imported);
 
 $(document).ready(function() {
-    console.log("document is ready");
+
     $(".imageScan").wrap("<div></div>");
     $(".imageScan").focus(function() {
-        console.log($(this));
+
         $('#hoveringTooltip').remove();
         $(this).parent().append("<div id='hoveringTooltip' style='position: absolute; z-index: 100'></div>");
-        console.log('appended div');
+
         var buttonHeight = $(this).height();
         $('#hoveringTooltip').html("<button class='qrIconButton' id='scanUpload' style='padding: 0px; height: " + $(this).outerHeight() + "px; width: " + $(this).outerHeight() + "px'><i class='fas fa-qrcode'></i></button><input id='fileid' type='file' onchange='processFile()' hidden />");
-        console.log($(this).height() + " vs " + $('#scanUpload').outerHeight());
-        $("#hoveringTooltip").css({ top: $(this).offset().top - ($('#scanUpload').outerHeight() - $(this).outerHeight()) / 2, left: ($(this).offset().left + $(this).width() - $('#scanUpload').outerWidth()) });
+        $("#hoveringTooltip").css({ top: $(this).offset().top - ($('#scanUpload').outerHeight() - $(this).outerHeight()) / 2, left: ($(this).offset().left + $(this).outerWidth() - $('#scanUpload').outerWidth()) });
         $('#scanUpload').on("click tap", function() {
             document.getElementById('fileid').click();
         });
@@ -48,10 +47,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     function processFile() {
 
         var inputElement = document.getElementById('fileid');
-        console.log(inputElement);
         var file = inputElement.files[0];
-
-        console.log(file);
 
         var img = document.createElement("img");
         var reader = new FileReader();
@@ -61,20 +57,14 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
             img.src = e.target.result;
 
             img.onload = () => {
-                console.log('img loaded')
 
                 const tmpCanvas = document.createElement('canvas');
                 const ctx = tmpCanvas.getContext('2d');
-                console.log(JSON.parse(JSON.stringify(img.width)));
-                console.log(JSON.parse(JSON.stringify(img.height)));
 
-                console.log(tmpCanvas);
                 var MAX_WIDTH = 300;
                 var MAX_HEIGHT = 300;
                 var width = img.width;
                 var height = img.height;
-                console.log(width);
-                console.log(height);
 
                 if (width > height) {
                     if (width > MAX_WIDTH) {
@@ -99,32 +89,22 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                 );
                 var resizedBlob;
                 getBlobFromCanvas(tmpCanvas, resizedBlob, processBlob);
-                console.log('after getBlobFromCanvas: ' + resizedBlob);
                 // img.remove();
             }
 
             function processBlob(resizedBlob) {
-                console.log('inside proceessBlob: ' + resizedBlob);
                 resizedFile = new File([resizedBlob], "resizedImage", {
                     type: "image/jpeg",
                 });
 
-
-                console.log(resizedFile);
                 var fr = new FileReader();
                 fr.onload = function() {
                     const codeReader = new ZXing.BrowserMultiFormatReader()
-                    console.log('before decode');
 
                     codeReader.decodeFromImage(undefined, fr.result).then((result) => {
-                        console.log('log result');
-                        console.log(result)
-
                         var parentTooltip = inputElement.parentElement;
-                        console.log(parentTooltip);
                         var parentDiv = parentTooltip.parentElement;
                         var nodeList = parentDiv.childNodes;
-                        console.log(nodeList);
                         for (i = 0; i < nodeList.length; i++) {
                             var node = nodeList[i];
                             if (node.className == 'imageScan') {
@@ -153,15 +133,12 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                             locate: true,
                             src: URL.createObjectURL(input.files[0])
                         }, function(result) {
-                            console.log('inside Quagga result function');
-                            console.log(result);
                             if (result.codeResult) {
 
                                 var parentTooltip = inputElement.parentElement;
-                                console.log(parentTooltip);
                                 var parentDiv = parentTooltip.parentElement;
                                 var nodeList = parentDiv.childNodes;
-                                console.log(nodeList);
+
                                 for (i = 0; i < nodeList.length; i++) {
                                     var node = nodeList[i];
                                     if (node.className == 'imageScan') {
@@ -170,30 +147,18 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
                                     }
                                 }
+                            } else {
+                                alert('Barcode not found - Try Again');
                             }
+
                         });
 
-                        /*                var parentTooltip = inputElement.parentElement;
-                                        console.log(parentTooltip);
-                                        var parentDiv = parentTooltip.parentElement;
-                                        var nodeList = parentDiv.childNodes;
-                                        console.log(nodeList);
-                                        for (i = 0; i < nodeList.length; i++) {
-                                            var node = nodeList[i];
-                                            if (node.className == 'imageScan') {
-                                                node.value = err;
-                                            }
-                                        }*/
                     })
                 }
                 fr.readAsDataURL(resizedFile);
             }
-            // tmpCanvas.remove();
-
-            console.log('before timeout');
 
         }
-        console.log('after result');
         reader.readAsDataURL(file);
 
     }
@@ -203,10 +168,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
 
 function getBlobFromCanvas(canvas, blob, callback) {
-    console.log('getBlobFromCanvas');
     if (canvas.toBlob) { //canvas.blob() supported. Store blob.
         var blob = canvas.toBlob(function(blob) {
-            console.log('inside canvas.toblob: ' + blob);
             canvas.remove();
             callback(blob);
         }, 'image/jpeg');
