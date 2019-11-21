@@ -1,3 +1,8 @@
+var style = document.createElement('style');
+style.type = 'text/css';
+style.innerHTML = '.qrIconButton { min-width: 30px;min-height: 30px;max-width: 70px;max-height: 70px;}';
+document.getElementsByTagName('head')[0].appendChild(style);
+
 var link = document.createElement('link');
 link.rel = 'stylesheet';
 link.type = 'text/css';
@@ -16,10 +21,14 @@ $(document).ready(function() {
     console.log("document is ready");
     $(".imageScan").wrap("<div></div>");
     $(".imageScan").focus(function() {
+        console.log($(this));
         $('#hoveringTooltip').remove();
-        $(this).parent().append("<div id='hoveringTooltip' style='position: relative; z-index: 100; top: -27px; right: -200px;'></div>");
+        $(this).parent().append("<div id='hoveringTooltip' style='position: absolute; z-index: 100'></div>");
         console.log('appended div');
-        $('#hoveringTooltip').html("<button id='scanUpload''><i class='fas fa-qrcode'></i></button><input id='fileid' type='file' onchange='processFile()' hidden />");
+        var buttonHeight = $(this).height();
+        $('#hoveringTooltip').html("<button class='qrIconButton' id='scanUpload' style='padding: 0px; height: " + $(this).outerHeight() + "px; width: " + $(this).outerHeight() + "px'><i class='fas fa-qrcode'></i></button><input id='fileid' type='file' onchange='processFile()' hidden />");
+        console.log($(this).height() + " vs " + $('#scanUpload').outerHeight());
+        $("#hoveringTooltip").css({ top: $(this).offset().top - ($('#scanUpload').outerHeight() - $(this).outerHeight()) / 2, left: ($(this).offset().left + $(this).width() - $('#scanUpload').width()) });
         $('#scanUpload').on("click tap", function() {
             document.getElementById('fileid').click();
         });
@@ -46,8 +55,6 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
         var img = document.createElement("img");
         var reader = new FileReader();
-
-
 
         reader.onload = function(e) {
 
@@ -121,7 +128,9 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                         for (i = 0; i < nodeList.length; i++) {
                             var node = nodeList[i];
                             if (node.className == 'imageScan') {
+                                $('#hoveringTooltip').remove();
                                 node.value = result.text;
+
                             }
                         }
                     }).catch((err) => {
@@ -156,7 +165,9 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                                 for (i = 0; i < nodeList.length; i++) {
                                     var node = nodeList[i];
                                     if (node.className == 'imageScan') {
+                                        $('#hoveringTooltip').remove();
                                         node.value = result.codeResult.code;
+
                                     }
                                 }
                             }
