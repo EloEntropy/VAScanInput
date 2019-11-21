@@ -1,12 +1,20 @@
+var link  = document.createElement('link');
+link.rel  = 'stylesheet';
+link.type = 'text/css';
+link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css';
+document.head.appendChild(link);
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-<script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+var imported = document.createElement('script');
+imported.src = 'https://code.jquery.com/jquery-3.4.1.slim.min.js';
+document.head.appendChild(imported);
 
-<script type="text/javascript">
+imported = document.createElement('script');
+imported.src = 'https://unpkg.com/@zxing/library@latest';
+document.head.appendChild(imported);
 
-
+imported = document.createElement('script');
+imported.src = 'https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js';
+document.head.appendChild(imported);
 
 $(document).ready(function() {
     console.log("document is ready");
@@ -200,4 +208,3 @@ console.log('before timeout');
 		}
 	}
 
-</script>
